@@ -25,11 +25,11 @@ public class UpThread extends Thread {
 			try{
 				DatagramPacket packet = new DatagramPacket(data, data.length);
 				receiveSocket.receive(packet);
+				while(n++ <100)
 				System.out.println("ServerReceivePacket--->from:"+packet.getAddress()
 						+"length:"+packet.getLength()+
 		            			"content:"+Arrays.toString(packet.getData()));
 				
-				System.out.println(packet.getLength()+"--/--"+packet.getData().length);
 				
 				addPacketToBuffer(new FramePacket(packet.getData(), packet.getData().length));
 //				addPacketToBuffer(new FramePacket(packet.getData(), packet.getLength()));

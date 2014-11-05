@@ -12,6 +12,7 @@ public class DownThread extends Thread {
 	AmrServer amrServer= null;
 	private boolean keepRunning = true;
 	private DatagramSocket sendSocket = null;
+	int n = 0;
 	
 	public DownThread(AmrServer amrServer,DatagramSocket sendSocket){
 		this.amrServer = amrServer;
@@ -52,6 +53,7 @@ public class DownThread extends Thread {
 					DatagramPacket pack = new DatagramPacket(block,	block.length,client.getIp(),
 															client.getPort());
 					sendSocket.send(pack);	
+					while(n++ <100)
 					System.out.println("ServerSendPacket:--->to"+pack.getAddress()+
 							"length:"+pack.getLength()+
 	            			"content:"+Arrays.toString(pack.getData()));
