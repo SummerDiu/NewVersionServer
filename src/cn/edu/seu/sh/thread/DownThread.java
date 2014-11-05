@@ -3,6 +3,7 @@ package cn.edu.seu.sh.thread;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import cn.edu.seu.sh.server.AmrServer;
 import cn.seu.edu.sh.client.Client;
@@ -50,8 +51,10 @@ public class DownThread extends Thread {
 					}						
 					DatagramPacket pack = new DatagramPacket(block,	block.length,client.getIp(),
 															client.getPort());
-					sendSocket.send(pack);					
-//					System.out.println("发往："+pack.getAddress().toString()+"	");
+					sendSocket.send(pack);	
+					System.out.println("ServerSendPacket:--->to"+pack.getAddress()+
+							"length:"+pack.getLength()+
+	            			"content:"+Arrays.toString(pack.getData()));
 				}
 			} catch (Exception e) {
 				disConnectClient.add(ix);

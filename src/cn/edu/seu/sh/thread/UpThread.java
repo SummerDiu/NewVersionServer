@@ -2,6 +2,7 @@ package cn.edu.seu.sh.thread;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.Arrays;
 
 import cn.edu.seu.sh.packet.FramePacket;
 import cn.edu.seu.sh.server.AmrServer;
@@ -24,16 +25,16 @@ public class UpThread extends Thread {
 			try{
 				DatagramPacket packet = new DatagramPacket(data, data.length);
 				receiveSocket.receive(packet);
-				if(n++<1000){
-					System.out.println("ReceivePacket--->:"+n+"length:"+packet.getLength()+
-	            			"content:"+data.toString());
-					System.out.println("from"+packet.getAddress()+"packetList.size="+amrServer.packetList.size());
-					
-				}
+				System.out.println("ServerReceivePacket--->from:"+packet.getAddress()
+						+"length:"+packet.getLength()+
+		            			"content:"+Arrays.toString(packet.getData()));
 				
-				addPacketToBuffer(new FramePacket(packet.getData(), packet.getLength()));
-			} catch (Exception e) 
-			{
+				System.out.println(packet.getLength()+"--/--"+packet.getData().length);
+				
+				addPacketToBuffer(new FramePacket(packet.getData(), packet.getData().length));
+//				addPacketToBuffer(new FramePacket(packet.getData(), packet.getLength()));
+
+			} catch (Exception e){
 				e.printStackTrace();
 			}
 		}
