@@ -20,7 +20,7 @@ public class UpThread extends Thread {
 
 	@Override
 	public void run() {
-		byte[] data = new byte[32];	/////////1024*10
+		byte[] data = new byte[1024];	/////////1024*10
 		while (keepRunning){
 			try{
 				DatagramPacket packet = new DatagramPacket(data, data.length);
