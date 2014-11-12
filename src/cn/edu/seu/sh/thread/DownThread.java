@@ -40,25 +40,29 @@ public class DownThread extends Thread {
 		if (isBufferEmpty || amrServer.clientList.size() <= 0) {
 			return;
 		}
-		byte[] block = amrServer.takeAwayFirstFrame();
+//		byte[] block = amrServer.takeAwayFirstFrame();
+		DatagramPacket packet = amrServer.takeAwayFirstPacket();
+		byte[] block = packet.getData();
+		int length = packet.getData().length;
 		ArrayList<Integer> disConnectClient = new ArrayList<Integer>();
 		for (int ix = 0; ix < amrServer.clientList.size(); ++ix) {
 			Client client = amrServer.clientList.get(ix);
 			
 			try {
 				if (!isBufferEmpty) {
-					if (block == null){
+					if (packet == null){
 						continue;
-					}						
-					DatagramPacket pack = new DatagramPacket(block,	block.length,client.getIp(),
-															client.getPort());
-					sendSocket.send(pack);	
+					}
+					DatagramPacket sendPacket = new DatagramPacket(block,length,client.getIp(),
+							client.getPort());
+					sendSocket.send(sendPacket);	
 					while(n++ <100)
-					System.out.println("ServerSendPacket:--->to"+pack.getAddress()+
-							"length:"+pack.getLength()+
-	            			"content:"+Arrays.toString(pack.getData()));
+					System.out.println("ServerSendPacket:--->to"+sendPacket.getAddress()+
+							"length:"+sendPacket.getLength()+
+	            			"content:"+Arrays.toString(sendPacket.getData()));
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				disConnectClient.add(ix);
 //				System.out.println("send data to id=" + client.getId() + " error" + " :"
 //						+ e.toString());				
@@ -67,6 +71,7 @@ public class DownThread extends Thread {
 		disConnectClient.clear();
 		disConnectClient = null;
 		block = null;
+		packet = null;
 	}
 	
 }

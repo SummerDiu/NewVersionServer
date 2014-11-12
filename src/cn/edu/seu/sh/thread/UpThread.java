@@ -31,8 +31,8 @@ public class UpThread extends Thread {
 		            			"content:"+Arrays.toString(packet.getData()));
 				
 				
-				addPacketToBuffer(new FramePacket(packet.getData(), packet.getData().length));
-//				addPacketToBuffer(new FramePacket(packet.getData(), packet.getLength()));
+//				addPacketToBuffer(new FramePacket(packet.getData(), packet.getData().length));
+				addPacketToBuffer(packet);
 
 			} catch (Exception e){
 				e.printStackTrace();
@@ -44,7 +44,7 @@ public class UpThread extends Thread {
 		keepRunning = false;
 	}
 	
-	public void addPacketToBuffer(FramePacket packet) {
+	public void addPacketToBuffer(DatagramPacket packet) {
 		if (amrServer.packetList.size() > amrServer.BUFFER_SIZE) {
 			amrServer.takeAwayFirstPacket();
 		}

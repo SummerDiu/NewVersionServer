@@ -1,9 +1,7 @@
 package cn.edu.seu.sh.server;
 
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -30,7 +28,8 @@ public class AmrServer {
 	public ClientManager clientManager;
 	public ArrayList<Client> clientList = null;
 	ArrayList<Client> disconnectClientList = null;
-	public LinkedList<FramePacket> packetList;	
+//	public LinkedList<FramePacket> packetList;	
+	public LinkedList<DatagramPacket> packetList;
 	
 	public AmrServer() {
 		
@@ -41,7 +40,8 @@ public class AmrServer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		packetList = new LinkedList<FramePacket>();
+//		packetList = new LinkedList<FramePacket>();
+		packetList = new LinkedList<DatagramPacket>();
 		clientList = new ArrayList<Client>();
 		disconnectClientList = new ArrayList<Client>();
 		clientManager = new ClientManager(clientList,disconnectClientList);
@@ -82,25 +82,26 @@ public class AmrServer {
 
 	}
 	
-	public synchronized FramePacket takeAwayFirstPacket() {
+	public synchronized DatagramPacket takeAwayFirstPacket() {
 		if (packetList.size() <= 0) {
 			return null;
 		}
-		FramePacket fp = packetList.getFirst();
-		if (fp == null) {
+//		FramePacket fp = packetList.getFirst();
+		DatagramPacket packet = packetList.getFirst();
+		if (packet == null) {
 			return null;
 		}
-		FramePacket packet = new FramePacket(fp);
+//		FramePacket packet = new FramePacket(fp);
 		packetList.removeFirst();
 		return packet;
 	}
 	
-	public byte[] takeAwayFirstFrame() {
-		FramePacket packet = takeAwayFirstPacket();
-		if (packet == null) {
-			return null;
-		}
-		return packet.getFrame();
-	}
+//	public byte[] takeAwayFirstFrame() {
+//		FramePacket packet = takeAwayFirstPacket();
+//		if (packet == null) {
+//			return null;
+//		}
+//		return packet.getFrame();
+//	}
 
 }
